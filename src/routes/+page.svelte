@@ -12,7 +12,8 @@
         font-size: functions.toRem(36);
         @include breakpoint.up('md') {
             color: green
+        }@include breakpoint.up('lg') {
+            color: blue
         }
-        @include breakpoint.up('md') {}
     }
 </style>
