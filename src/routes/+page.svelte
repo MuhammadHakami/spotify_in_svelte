@@ -3,7 +3,7 @@
 <input />
 <select>
     <option>Option</option>
-</select> 
+</select>
 <button>Button</button>
 
 <style lang="scss">
