@@ -14,6 +14,9 @@ dependencies:
   modern-normalize:
     specifier: ^2.0.0
     version: 2.0.0
+  pkce-gen:
+    specifier: ^1.1.0
+    version: 1.1.0
 
 devDependencies:
   '@playwright/test':
@@ -1806,6 +1809,10 @@ packages:
   /picomatch@2.3.1:
     resolution: {integrity: sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA==}
     engines: {node: '>=8.6'}
+
+  /pkce-gen@1.1.0:
+    resolution: {integrity: sha512-pCXX7hcHBW4Cqvu8bSN/5+NLDNOg61VqiK9/1JSfppUHyTPuaNmZo8T8tydj0/AVlaDQpAB9+6iwCOT6yI7xsQ==}
+    dev: false
 
   /pkg-types@1.0.3:
     resolution: {integrity: sha512-nN7pYi0AQqJnoLPC9eHFQ8AcyaixBUOwvqc5TDnIKCMEE6I0y8P7OKA7fPexsXGCGxQDl/cmrLAp26LhcwxZ4A==}
