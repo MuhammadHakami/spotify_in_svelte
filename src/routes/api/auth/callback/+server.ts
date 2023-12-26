@@ -40,5 +40,4 @@ export const GET: RequestHandler = async ({url, cookies, fetch}) => {
     cookies.set('refresh_token', responseJSON.refresh_token, {path: '/'});
     cookies.set('access_token', responseJSON.access_token, {path: '/'});
     throw redirect(303, '/');
-    
 };
