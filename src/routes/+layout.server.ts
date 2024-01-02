@@ -1,7 +1,6 @@
 import type { LayoutServerLoad } from "./$types";
 import { SPOTIFY_BASE_URL } from "$env/static/private";
 import { redirect } from "@sveltejs/kit";
-import { url } from "inspector";
 
 export const load: LayoutServerLoad = async ({ cookies, fetch, url }) => {
     const accessToken = cookies.get('access_token');
@@ -33,7 +32,7 @@ export const load: LayoutServerLoad = async ({ cookies, fetch, url }) => {
             user: null
         };
     } else {
-        
+        null
     } {
         return {
             user: null
