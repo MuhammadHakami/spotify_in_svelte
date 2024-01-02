@@ -13,7 +13,11 @@
     <p>Hello {user.display_name}</p>
     <LogoutButton />
 {/if}
+
 <div id='main'>
+    {#if user}
+        <div id=sidebar>Siderbar</div>
+    {/if}
     <div id="content">
         <main id='main-content'>
             <slot />
