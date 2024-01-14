@@ -11,7 +11,7 @@
 </script>
 
 {#if user}
-    <p>Hello {user.display_name}</p>
+    <!-- <p>Hello {user.display_name}</p> -->
     <LogoutButton />
 {/if}
 
@@ -30,7 +30,7 @@
 
 <style lang='scss'>
     #main {
-        display: fkex;
+        display: flex;
         #content {
             flex: 1;
             main#main-content {

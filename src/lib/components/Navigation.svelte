@@ -62,6 +62,7 @@
             background-color: var(--sidebar-color);
             height: 100vh;
             overflow: auto;
+            display: none;
             ul {
                 padding: 0;
                 margin: 20px 0 0;
@@ -76,13 +77,30 @@
                         display: flex;
                         align-items: center;
                         text-decoration: none;
+                        color: var(--text-color);
                         font-size: functions.toRem(14);
                         font-weight: 500;
                         padding: 5px;
                         margin: 10px 0;
-                        opacity: 0.7
+                        opacity: 0.7;
+                        transition: opacity 0.2s;
+                        &:hover,
+                        &:foucs {
+                            opacity: 1;
+                        }
+                        :global(svg) {
+                            margin-right: 12px;
+                        }
                     }
                 }
+            }
+        }
+        &.desktop {
+            position: sticky;
+            top: 0;
+            .nav-content-inner {
+                @include breakpoint.up('md');
+                display: block;
             }
         }
     }
