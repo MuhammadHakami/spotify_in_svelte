@@ -10,10 +10,10 @@
     $: user = data.user;
 </script>
 
-{#if user}
+<!-- {#if user}
     <p>Hello {user.display_name}</p>
     <LogoutButton />
-{/if}
+{/if} -->
 
 <div id='main'>
     {#if user}
@@ -30,6 +30,7 @@
 
 <style lang='scss'>
     #main {
+        display: flex;
         #content {
             flex: 1;
             main#main-content {
