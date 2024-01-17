@@ -1,16 +1,21 @@
 <script lang='ts'>
-    import type { ComponentType } from "svelte";
-    import { Home, Search, ListMusic, type Icon } from 'lucide-svelte';
+    import { tick, type ComponentType } from "svelte";
+    import { Home, Search, ListMusic, type Icon} from 'lucide-svelte';
     import logo from '$assets/Spotify_Logo_RGB_white.png';
     import { page } from '$app/stores';
     import { fade } from 'svelte/transition';
+	import { beforeNavigate } from "$app/navigation";
 
     export let desktop: boolean;
 
     let isMobilMeneOpen = false;
     $: isOpen = desktop || isMobilMeneOpen
 
-    const menuItime: {path: string, label: string, icon: ComponentType<Icon> } [] = [
+    let openMenuButton: HTMLButtonElement;
+    let closeMenuButton: HTMLButtonElement;
+    let lastFocusableElement: HTMLAnchorElement;
+
+    const menuItems: {path: string, label: string, icon: ComponentType<Icon> } [] = [
         {
             path: '/',
             label: 'Home',
@@ -27,12 +32,44 @@
             icon: ListMusic
         }
     ];
-    const openMenu = () => {
+    const openMenu = async () => {
         isMobilMeneOpen = true;
+        await tick()
+        closeMenuButton.focus();
     };
-    const closeMenu = () => {
-        isMobilMeneOpen = false
+
+    const closeMenu = async () => {
+        isMobilMeneOpen = false;
+        await tick()
+        openMenuButton.focus();
     };
+
+    const moveFocusToBottom = (e: KeyboardEvent)=> {
+        if(desktop) return;
+        if(e.key === 'Tab' && e.shiftKey) {
+            e.preventDefault();
+            lastFocusableElement.focus()
+        }
+    };
+
+    const moveFocusToTop = (e: KeyboardEvent)=> {
+        if(desktop) return;
+        if(e.key === 'Tab' && !e.shiftKey) {
+            e.preventDefault();
+            closeMenuButton.focus();
+        }
+    };
+
+    const handleEscape = (e: KeyboardEvent) => {
+        if (e.key === 'Escape') {
+            closeMenu();
+        }
+    };
+
+    beforeNavigate(() => {
+        isMobilMeneOpen = false;
+    });
+
 </script>
 
 <svelte:head>
@@ -47,33 +84,45 @@
 
 <div class='nav-content' class:desktop class:mobile={!desktop}>
     {#if !desktop && isMobilMeneOpen}
-        <div class='overrlay' 
+        <div class='overlay' 
         on:click={closeMenu} 
+        on:keyup={handleEscape}
         transition:fade={{ duration: 200 }}/>
     {/if}
     <nav aria-label='Main'>
         {#if !desktop} 
-            <button on:click={openMenu}>Open</button>    
+            <button bind:this={openMenuButton} on:click={openMenu} aria-expanded={isOpen}>Open</button>    
         {/if}
-        <div class ='nav-content-inner' class:is-hidden={!isOpen}>
+        <div class ='nav-content-inner' 
+        class:is-hidden={!isOpen}
+        style:visibility={isOpen ? 'visible':'hidden'}
+        on:keyup={handleEscape}
+        >
             {#if !desktop}
-                <button on:click={closeMenu}>Close</button>
+                <button bind:this={closeMenuButton} on:click={closeMenu} on:keydown={moveFocusToBottom}>Close</button>
             {/if}
             <img src={logo} class="logo" alt="Spotify"/>
                 <ul>
-                    {#each menuItime as itme} 
-                    <li class:active={itme.path == $page.url.pathname}>
-                        <a href={itme.path}>
-                            <svelte:component 
-                                this={itme.icon} 
-                                focusable='false' 
-                                aria-hidden='true' 
-                                color='var(--text-color)'
-                                size={26}
-                                strokeWidth={2}
-                            />
-                        {   itme.label}
-                        </a>
+                    {#each menuItems as item, index}
+					{@const iconProps = {
+						focusable: 'false',
+						'aria-hidden': true,
+						color: 'var(--text-color)',
+						size: 26,
+						strokeWidth: 2
+					}}
+                    <li class:active={item.path === $page.url.pathname}>
+                        {#if menuItems.length === index + 1}
+							<a bind:this={lastFocusableElement} href={item.path} on:keydown={moveFocusToTop}>
+								<svelte:component this={item.icon} {...iconProps} />
+								{item.label}
+							</a>
+						{:else}
+							<a href={item.path}>
+								<svelte:component this={item.icon} {...iconProps} />
+								{item.label}
+							</a>
+						{/if}
                     </li>
                     {/each}
             </ul>
@@ -84,18 +133,18 @@
 <style lang="scss">
     .nav-content {
         .overlay {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            background-color: var(--sidebar-color);
-            opacity: 0.75;
-            z-index: 100;
-            @include breakpoint.up('md') {
-                display: none;
-            }
-        }
+			position: fixed;
+			width: 100%;
+			height: 100%;
+			top: 0;
+			left: 0;
+			background-color: var(--sidebar-color);
+			opacity: 0.75;
+			z-index: 100;
+			@include breakpoint.up('md') {
+				display: none;
+			}
+		}
         .logo {
             max-width: 100%;
             width: 130px;
@@ -145,22 +194,23 @@
             .nav-content-inner {
                 @include breakpoint.up('md'){
                     display: block;
-            }
+                }
             }
         }
         &.mobile .nav-content-inner {
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 100;
-            transition: transform 200ms, opacity 200ms;
-            &.is-hidden {
-                transform: translateX(-100%);
-                opacity: 0;
-            }
-            @include breakpoint.down('md') {
-                display: block;
-            }
-        }
+			position: fixed;
+			top: 0;
+			left: 0;
+			z-index: 100;
+			transition: transform 200ms, opacity 200ms;
+			&.is-hidden {
+                transition: transform 200ms, opacity 200ms, visibility 200ms;
+				transform: translateX(-100%);
+				opacity: 0;
+			}
+			@include breakpoint.down('md') {
+				display: block;
+			}
+		}
     }
 </style>
