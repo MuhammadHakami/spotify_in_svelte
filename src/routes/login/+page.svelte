@@ -8,8 +8,9 @@
 <div class="wrapper">
     <div class="content">
         <img src={logo} class="logo" alt="Spotify" />
-        <h1>SR 0.00 for 3 months of Premium</h1>
-        <p>Enjoy ad-free music listening, offline playback, and more. Cancel Anytime.</p>
+        <h1>SR 0.00 for 1 year of Premium</h1>
+        <p>Enjoy ad-free music listening, offline playback, and more. Cancel Anytime.
+        </p>
         <div class='buttons'>
             <Button element='a' variant="outline" href="https://www.splotify.com" 
             target="_blank" rel="noopener noreferrer" >Signup</Button>
