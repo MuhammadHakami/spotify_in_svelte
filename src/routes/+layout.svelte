@@ -25,7 +25,7 @@
 
 {#if user}
     <!-- <p>Hello {user.display_name}</p> -->
-    <LogoutButton />
+    <!-- <LogoutButton /> -->
 {/if}
 
 <div id='main'>
@@ -35,12 +35,14 @@
         </div>
     {/if}
     <div id="content">
+        {#if user}
         <div id='topbar' bind:this={topbar}>
             <div class='topbar-bg' 
-            style:background-color='var(--header-color)'
-            style:opacity={`${headerOpacity}`}  />
-            <Header />
-        </div>
+                style:background-color='var(--header-color)'
+                style:opacity={`${headerOpacity}`}  />
+                <Header />
+            </div>
+        {/if}
         <main id='main-content' class:logged-in={user}>
             <slot />
         </main>

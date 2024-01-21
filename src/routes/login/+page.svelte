@@ -11,11 +11,16 @@
         <h1>SR 0.00 for 1 year of Premium</h1>
         <p>Enjoy ad-free music listening, offline playback, and more. Cancel Anytime.
         </p>
-        <div class='buttons'>
-            <Button element='a' variant="outline" href="https://www.splotify.com" 
-            target="_blank" rel="noopener noreferrer" >Signup</Button>
-            <Button element="a" href="/api/auth/login">Login</Button>
-        </div>
+        <div class="buttons">
+			<Button
+				element="a"
+				variant="outline"
+				href="https://www.spotify.com/"
+				target="_blank"
+				rel="noopener noreferrer">Sign Up</Button
+			>
+			<Button element="a" href="/api/auth/login">Login</Button>
+		</div>
     </div>
     <div class='cover'>
         <img src={cover} alt='Svelte album cover' />
